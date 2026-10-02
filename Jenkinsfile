@@ -1,26 +1,19 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven399'
-    }
 
     stages {
 
-        stage('Compile') {
+        stage('Checkout') {
             steps {
-                sh 'mvn compile'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                git url: 'https://github.com/jsachdev07/DevOpsClassCodes.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn package'
+                withMaven(maven: 'maven') {
+                    sh 'mvn clean package'
+                }
             }
         }
     }
